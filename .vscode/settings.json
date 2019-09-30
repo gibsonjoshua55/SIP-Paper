@@ -1,0 +1,33 @@
+{
+    "latex-workshop.latex.tools": [{
+            "name": "latexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "--shell-escape",
+                "-aux-directory=out",
+                "-output-directory=out",
+                "%DOC%"
+            ]
+        },
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-aux-directory=out",
+                "-output-directory=out",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.outDir": "%DIR%/out",
+    "[latex]": {
+        "editor.wordWrap": "bounded"
+    }
+}
