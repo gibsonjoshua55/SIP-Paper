@@ -1,12 +1,14 @@
 \documentclass[12pt]{article}
 \usepackage[utf8]{inputenc}
 
-\usepackage{natbib}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
 \usepackage{setspace}
 \usepackage{minted}
+\usepackage{biblatex}
+\usepackage{svg}
 
+\addbibresource{references.bib}
 
 \pagestyle{fancy}
 
@@ -76,10 +78,13 @@
 
 \input{sections/outline.tex}
 
+\input{sections/technologies/technologies.tex}
+
 \input{sections/motivation.tex}
 
 \newpage
 \setcounter{page}{1}
+\printbibliography
 %\addcontentsline{toc}{section}{References}
 %\bibliographystyle{plain}
 %\bibliography{references}
