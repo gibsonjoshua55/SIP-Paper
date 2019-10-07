@@ -1,5 +1,5 @@
 \subsection{GraphQL}
-The main technology motivating this project is GraphQL, a query language developed by Facebook in 2012 \cite{byronKeynoteBriefHistory2019}.  This language, in comparison to querying languages such as SQL (Structured Query Language), is designed to be exposed as a public, web accessible, API.   In this section, I will briefly cover what makes GraphQL different from languages like SQL and how web APIs defined with GraphQL differ from a typical REST API.
+The main technology motivating this project is GraphQL, a query language developed by Facebook in 2012 \cite{byronKeynoteBriefHistory2019}.  This language, in comparison to querying languages such as SQL (Structured Query Language), is designed to be exposed as a public, web accessible, API.
 
 \subsubsection{Language Structure}
 
@@ -39,6 +39,4 @@ query {
 
 SQL is debatably one of the most popular querying languages thanks to the popularity of relational databases.  While the aim of this project is to connect GraphQL and SQL queries, it should be noted that the two languages exist for very different reasons.
 
-SQL is a language very tied to the storage and retrival of data.  Queries act on specific tables that have strictly defined and structured data.  The SQL language does not make sense outside of the context of a relational database.  GraphQL on the other hand is completely agnostic to how the data is stored/retrieved.  The data source could be a relational database, a non-relational database, some other API, or could be programatically generated. To fetch and update all of this data, GraphQL servers implement resolvers that have the logic to retrieve each data type/allowed query.  In this sense, GraphQL can be the requesting language from the client side and SQL queries can be used to resolve those GraphQL queries.
-
-\subsubsection{GraphQL vs. REST API}
+SQL is a language very tied to the storage and retrival of data.  Queries act on specific tables that have strictly defined and structured data.  The SQL language does not make sense outside of the context of a relational database.  GraphQL on the other hand is completely agnostic to how the data is stored/retrieved.  The data source could be a relational database, a non-relational database, some other API, or could be programatically generated. To fetch and update all of this data, GraphQL servers implement resolvers that have the logic for that operation (whether that's accessing a database, running a function, or calling another service).  Because of this flexibility, it is possible to use GraphQL as the query language for the front end of the application and SQL as the query language used by a GraphQL server to fetch or update data in a database.
