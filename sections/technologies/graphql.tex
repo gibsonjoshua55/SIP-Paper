@@ -3,18 +3,18 @@ The main technology motivating this project is GraphQL, a query language develop
 
 \subsubsection{Language Structure}
 
-The unique aspect of GraphQL that when data is requested from the API, the client requests the shape of the response.  What this means is that rather than the server defining the exact data that it will respond to the client with, the client has the freedom to adapt the data requested.
+The unique aspect of GraphQL is that when the client requests data from the API, the client requests the shape of the response.  What this means is that rather than the server defining the exact data that it will respond to the client with, the client has the freedom to adapt the data requested.
 
 Another unique part of the language is that data accessible by the API is represented as a graph of connected data types.  You could imagine each type of requestable data being a node on a graph where the edges represent relationships between the data.  When combining the ability to dynamically request data from the server and being able to request related data, the power of GraphQL becomes evident.  Since the client requests exactly what it wants and can recieve all the related data in one request, the number of requests to the server is dramatically reduced and no extraneous data is sent to the client.
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=.15]{img/schema-graph.png}
-    \caption{INSERT CAPTION HERE}
+    \caption{Visual representation of a sample GraphQL Schema}
     \label{fig:schema-graph}
 \end{figure}
 
-Figure \ref{fig:schema-graph} is a visual representation of a GraphQL schema with three types, TimestampCollection, TimestampCollectionLabel, and Timestamp.  The relationships on this schema would allow the user to create a request as shown in Figure \ref{fig:basic-query}.  The result of this query would be all TimestampCollections with their associated labels and timestamps.  If not all the fields or connected data is need, however, any part of that query could be removed and the API would respond with less data.
+Figure \ref{fig:schema-graph} is a visual representation of a GraphQL schema with three types, TimestampCollection, TimestampCollectionLabel, and Timestamp.  The edges between each type show that relationships exist between the types. These relationships  would allow the user to create a request as shown in Figure \ref{fig:basic-query}.  The result of this query would be all TimestampCollections with their associated labels and timestamps.  If some of those requests fields or connected data are need, however, any part of that query could be removed and the API would respond with less data.
 
 \begin{figure}
     \begin{verbatim}
