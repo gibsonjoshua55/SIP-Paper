@@ -18,7 +18,7 @@ Along with typings, TypeScript has also made other syntactic improvements over p
 
 In programming languages, reflection is the ability for a program to analyze and modify itself during run time \cite{malenfantTutorialBehavioralReflection1996}.  In TypeScript, one of the common forms of reflection is using decorators to attach metadata to classes, properties, methods, and parameters.  By using a package called \Verb{'reflect-metadata'}, the program can reflect on itself to process the attached metadata and modify its behavior.  To illustrate this idea, I will introduce the server framework used in this project, Nest.js, which heavily relies on the use of decorators.
 
-\subsection{Nest.js}
+\subsection{Nest.js} \label{sec:nest-js}
 Nest.js is a framework for creating server-side applications in JavaScript or TypeScript.  Along with the Angular, thefront-end framework that has heavily influenced Nest.js's design, the framework is object oriented and uses metadata and decorators to declare the structure of the web server.
 
 For example, imagine a simple web server that just responds to one HTTP GET request with a success message.  To define this endpoint, in Nest.js, the program must simply define a Controller, a class that responds to a number of HTTP requests, and specific method to handle that request.
