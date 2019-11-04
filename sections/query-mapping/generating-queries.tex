@@ -1,1 +1,52 @@
 \subsection{Generating Queries}
+
+Once the schema between the GraphQL queries and the Database Tables has been established, by using a library called Sequlize, the process of converting the queries is fairly straight forward.
+
+Sequelize is what is known as an Object Relational Mapping library, or ORM.  ORMs are useful because they abstract the tables of the database as objects that can be used in a given programming language.  In this way, each record is no longer a row in a table, but an object of a given type.  Along with this abstraction, ORMs often provide a means of querying the database using functions instead of constructing raw SQL statements.  By calling functions such as \Verb!findOne! or \Verb!create!, the library will generate SQL statements that correspond to those function calls.
+
+Since the definition of the table schema shown in Section \ref{sec:schema} is compatible with Sequelize, this means that in order to generate a SQL statement for a given GraphQL query, all the program must do is determine what related tables to request and ask Sequelize to include them on a query.
+
+\subsubsection{Example Sequelize Query}
+
+\begin{figure}
+    \begin{verbatim}
+timestampCollectionRepository.findAll({
+    include: [{
+        model: TimestampCollectionLabel,
+        as: 'labels',
+        include: [{
+            model: Timestamp,
+            as: 'timestamps'
+        }]
+    }]
+})
+    \end{verbatim}
+    \caption{An example Sequelize query}
+    \label{fig:sequelize-query}
+\end{figure}
+
+Figure-\ref{fig:sequelize-query} is example of what at query might look like in Sequelize.  This query will query all of the Timestamp Collections from the database and will also JOIN onto two other tables to get all of the labels for the collection, as well as all of the timestamps associated with each label.  This sequelzie query would retrieve all of the data requried to resolve the query in Figure \ref{fig:basic-query}.  When this code is executed, Sequelize will generate a query to fetch this data, will return the data back in the form of nested objects, such like GraphQL expects, and that result can then be returned to the user through the GraphQL server.
+
+\subsubsection{Constructing the includes object}
+In order to dynamically fetch the requested data, the \verb!includes! object seen in Figure \ref{fig:sequelize-query} must be generated for each request.  By parsing the incoming GraphQL query, one can determine what connected types are requested.  In Figure \ref{fig:basic-query}, the requested types are \verb!TimestampCollection! $\rightarrow$ \verb!TimestampLabel! $\rightarrow$ \Verb!Timestamp!.  Since we also defined Sequelize database models for each of those types, by retreiving the equvialent Sequelize model for each requested GraphQL type, an includes object can be dynamically created. Algorithm \ref{alg:construct-includes} defines the pseudo code procedure that could generate these includes objects.  The result of the \textsc{ConstructIncludes} procedure being called on \Verb!TimestampCollection! and the selection of fields from Figure \ref{fig:basic-query} would be the object on the top-level key \verb!include! in Figure \ref{fig:sequelize-query}.
+
+\begin{algorithm}[H]
+    \begin{algorithmic}
+        \Procedure{ConstructIncludes}{$sequelizeModel$, $graphQLSelectionSet$}
+            \State $includedModels \leftarrow []$
+            \For{$selection \in graphQLSelectionSet$}
+                \State $inclueObject$ = \{\}
+                \If{$selection$ is type (not a field)}
+                    \State $selectedModel \leftarrow$ equivalent Sequelize model for GraphQL Type
+                    \State $includeObject.model \leftarrow selectedModel$
+                    \State $includeObject.includes \leftarrow$ 
+                    \State \textsc{  ConstructIncludes}($selectedModel$, $selection$)
+                    \State add $includeObject$ to $includedModels$ array
+                \EndIf
+            \EndFor
+            \State \textbf{return} $includedModels$
+        \EndProcedure
+    \end{algorithmic}
+    \caption{Construct includes object for Sequelize Query}
+    \label{alg:construct-includes}
+\end{algorithm}
