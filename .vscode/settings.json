@@ -29,5 +29,9 @@
     "latex-workshop.latex.outDir": "%DIR%/out",
     "[latex]": {
         "editor.wordWrap": "bounded"
-    }
+    },
+    "cSpell.words": [
+        "Hasura",
+        "sequelize"
+    ]
 }
