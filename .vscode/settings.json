@@ -32,6 +32,8 @@
     },
     "cSpell.words": [
         "Hasura",
-        "sequelize"
+        "UUID",
+        "sequelize",
+        "subclassing"
     ]
 }

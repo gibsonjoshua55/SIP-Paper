@@ -1,0 +1,85 @@
+\subsection{Base Service}
+With a standard structure for the data model of each type of data being stored, we can also create a standard set of functions related to creating, reading, updated, or deleting these records.  Once the data model has been established, Sequelize does provide a set of functions that directly interact with the database such as \verb!findOne!, \verb!findAll!, \verb!create!, etc.  The \verb!BaseService! wraps these functions to provide additional functionality, as well as enforce certain opinions on how to interact with the data.
+
+\subsubsection{Merge Options}
+When making queries to Sequelize, the client is allowed to pass in options to modify the behavior of the query.  For example the options shown in Figure \ref{fig:merge-options} are all examples that would either include data of related tables in the request (through an include option) or will limit the data that is returned (through where options).  Throughout the \verb!BaseService! class, it will be useful to merge together two different sets of options.  For example, the application may allow the user to search for a timestamp label by its name; however, the user should only have access to labels that they created.  To achieve this, on each call to the database, we can merge in the option \verb!{ where: {createdById: user.id}}! so all requests have that constraint.  Because options are a mix of objects, such as \verb!where! options, and array, such as the \verb!include!, the logic to merge these options becomes somewhat complicated.  The solution I came to, however is to do a deep merge on object values and to iterate through \verb!include! options and either add distinct model to the array, or deep merge matching models.  A deep merge is where you travel recursively down two objects.  On each level, if both objects have the same key, their values are merged as well.  On leafs of the tree, meaning individual values instead of nest objects, one objects is chosen to have the overriding value, and its value is used in the final result.
+
+For certain parts of the query options, however, this default behavior doesn't work.  For \verb!include! values, for example, the overriding array at the top level would always be the one used, since it wouldn't know how to merge the arrays.  For this key, a custom function is given where it looks through the two arrays to be merged and it matches up the objects in the array by their model type.  If you two objects have the same model, the same deep merge algorithm is called on those two objects.  Otherwise the objects are all added to an array that contains all of the requested models between the two options.
+
+On \verb!where! options, the two where clauses are simply wrapped in an \verb!AND! operator.  This allows both constraints to be applied, but no merge has to be computed.
+
+Figure \ref{fig:merge-options} gives an example of what the outcome of this function would be for two example options.
+
+\begin{figure}
+    \label{fig:merge-options}
+    \begin{Verbatim}[fontsize=\footnotesize]
+const initialOptions = {
+    include: [{
+        model: RelatedModel,
+        where: {
+            createdById: 10
+        }
+    }]
+    where: {
+        createdById: user.id
+    }
+};
+
+const optionsToBeMerged = {
+    include: [{
+        model: RelatedModel,
+        include: [{
+            model: ASecondModel
+        }],
+        where: {
+            createdById: 10
+        }
+    }],
+    where: {
+        name: 'A Value'
+    }
+};
+
+const optionsAfterMerge = {
+    include: [{
+        model: RelatedModel,
+        include: [{
+            model: ASecondModel
+        }],
+        where: {
+            createdById: 10
+        }
+    }],
+    where: {
+        [Op.and]: 
+        [
+            {
+                createdById: 10
+            },
+            {
+                name: 'A Value'
+            }
+        ]
+    }
+}
+    \end{Verbatim}
+    \caption{Example Sequelize Options}
+\end{figure}
+
+\subsubsection{Base Find Options}
+With the ability to merge query options \verb!BaseService! provides a mechanism of not only overriding the standard behavior or requests on each method call, but it also provides the option to base level constraints on each query.  When extending the \verb!BaseService! class, the subclass can override af function called \verb!getBaseFindOptions!.  This function, on every call to fetch data from the database, is called and the options it returns are merged into options provided by caller.  A common use case for this would be to use this function to ensure that the user can only access records they created.  The example in Figure \ref{fig:base-find-options} would limit the results from the database to only include records that the requesting user created.  This is one of the first examples of the benefits of this framework vs Hasura or Join monster.  Since functionality is kept in extendable classes, this kind of behavior can be modified for each type defined in the application.  Additionally, the behavior is generated programmatically, giving the developer total flexibility in how the options are computed.
+
+\begin{figure}
+    \label{fig:base-find-options}
+    \begin{Verbatim}[fontsize=\footnotesize]
+protected async getBaseFindOptions(user: AuthenticatedUser): Promise<FindOptions> {
+    return {
+        createdById: user.id
+    };
+}
+    \end{Verbatim}
+    \caption{Example Base Find Options}
+\end{figure}
+
+\subsubsection{Example Service: TimestampLabelService}
+Here I will include an appendix with a code example for an example service. I will use this section to explain how the functionality of the \verb!BaseService! can be extended.

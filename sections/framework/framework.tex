@@ -1,0 +1,8 @@
+\section{Framework}
+With the ability to map queries from GraphQL to SQL, the process of fetching data is reusable throughout the whole application; however, the developer would still have set up a resolver each available type and manually call the constructs include function.  To simplify this process, I have created a \verb!BaseEntity!, \verb!BaseService!, and \verb!BaseResolver! that when used together automate the process of creating queries and mutations for a given data type, fetching the data from the database, and returning the data to the client.  Moreover, these classes are extensible to allow custom functionality and extension by the developer.
+
+\input{sections/framework/design-considerations.tex}
+
+\input{sections/framework/base-entity.tex}
+
+\input{sections/framework/base-service.tex}
