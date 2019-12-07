@@ -1,0 +1,10 @@
+\subsection{Base Resolver}
+The base resolver is what exposes all of the functionality of the \verb!BaseService! to clients through GraphQL queries and mutations. The entities and services have created all of the functionality to interact with the database, but they do no a provide any public APIs for clients to take advantage of this functionality.  The resolver is what what creates public functions that clients call to interact with data. By default, a resolver extending the \verb!BaseResolver! will have the following \verb!getOne! and \verb!getAll! GraphQL.  It will also have the following GraphQL mutations: \verb!create!, \verb!update! and \verb!delete!.  When implementing a resolver that extends a \verb!BaseResolver!, all the developer must provide to the resolver is a service that extends the \verb!BaseService! that will fetch and mutate the data managed by the resolver.
+
+\subsubsection{Connecting the Dots}
+
+The resolver is ultimately the part of the application that connects everything together.  When a request is received, Nest.js sends the request to the associated resolving function for that request.  For all of the requests built into the \verb!BaseResolver!, the function then retrieves the requested data by \verb!ConstructIncludes! function and passing that query into the service which will actually fetch the data from the database.  That data is then returned back to the client who made the request.
+
+\subsubsection{Custom Functionality}
+
+When the developer extends the \verb!BaseResolver! to create a concrete resolver for a specific type, it is here that they have specific control over what queries and mutations are available on the server.  In this implementing class, the developer can turn on and off creating, updating, and deleting of the object, they can set guards to limit access to certain functions, define the arguments they can add custom implemented queries, and they can override any functionality defined in the \verb!BaseResolver!

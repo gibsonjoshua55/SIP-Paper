@@ -67,19 +67,6 @@ const optionsAfterMerge = {
 \end{figure}
 
 \subsubsection{Base Find Options}
-With the ability to merge query options \verb!BaseService! provides a mechanism of not only overriding the standard behavior or requests on each method call, but it also provides the option to base level constraints on each query.  When extending the \verb!BaseService! class, the subclass can override af function called \verb!getBaseFindOptions!.  This function, on every call to fetch data from the database, is called and the options it returns are merged into options provided by caller.  A common use case for this would be to use this function to ensure that the user can only access records they created.  The example in Figure \ref{fig:base-find-options} would limit the results from the database to only include records that the requesting user created.  This is one of the first examples of the benefits of this framework vs Hasura or Join monster.  Since functionality is kept in extendable classes, this kind of behavior can be modified for each type defined in the application.  Additionally, the behavior is generated programmatically, giving the developer total flexibility in how the options are computed.
+With the ability to merge query options \verb!BaseService! provides a mechanism of not only overriding the standard behavior or requests on each method call, but it also provides the option to base level constraints on each query.  When extending the \verb!BaseService! class, the subclass can override af function called \verb!getBaseFindOptions!.  This function, on every call to fetch data from the database, is called and the options it returns are merged into options provided by caller.  A common use case for this would be to use this function to ensure that the user can only access records they created.  Looking at the example service in Appendix \ref{ex:tl-service}, we can see how crucial this ability to limit access is.  For Timestamp Labels, they should be viewable by the created that label, or by any user if its collection is marked as public.  By defining this method, that logic is applied to all access operations on this object type.  
 
-\begin{figure}
-    \label{fig:base-find-options}
-    \begin{Verbatim}[fontsize=\footnotesize]
-protected async getBaseFindOptions(user: AuthenticatedUser): Promise<FindOptions> {
-    return {
-        createdById: user.id
-    };
-}
-    \end{Verbatim}
-    \caption{Example Base Find Options}
-\end{figure}
-
-\subsubsection{Example Service: TimestampLabelService}
-Here I will include an appendix with a code example for an example service. I will use this section to explain how the functionality of the \verb!BaseService! can be extended.
+This is one of the first examples of the benefits of this framework vs Hasura or Join monster.  Since functionality is kept in extendable classes, this kind of behavior can be modified for each type defined in the application.  Additionally, the behavior is generated programmatically, giving the developer total flexibility in how the options are computed.
