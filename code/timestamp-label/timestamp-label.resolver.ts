@@ -1,5 +1,5 @@
 const BaseTimestampLabelResolver = createBaseResolver(
-  "TimestampLabel",
+  'TimestampLabel',
   TimestampLabel,
   {
     createArgsType: TimestampLabelCreateArgs,
@@ -15,13 +15,25 @@ export class TimestampLabelResolver extends BaseTimestampLabelResolver {
   }
 
   /**
-   * Only allow updating timestamp labels that were created by the user
+   * Only allow updating timestamp labels for timestamp collections they created
    */
   updateFindOptions(_args: TimestampLabelArgs, user: AuthenticatedUser) {
+    return this.modificationFindOptions(user);
+  }
+
+  /**
+   * Only allow deleting timestamp labels for timestamp collections they created
+   */
+  deleteFindOptions(_args: TimestampLabelArgs, user: AuthenticatedUser) {
+    return this.modificationFindOptions(user);
+  }
+
+  modificationFindOptions(user: AuthenticatedUser) {
     const options: FindOptions = {
       include: [
         {
           model: TimestampCollection,
+          required: true,
           where: {
             createdById: user.id
           }
