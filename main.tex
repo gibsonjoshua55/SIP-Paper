@@ -36,10 +36,10 @@
         Senior Individualized Project in Computer Science
        \vspace*{3cm}
  
-       \textbf{GraphQL to SQL query mapping}
+       \textbf{Developing a Reusable Framework for Data Fetching and Mutation}
  
        \vspace{0.5cm}
-        A reusable TypeScript Framework
+       GraphQL to SQL query mapping using existing Typescript technologies
  
        \vspace{1.5cm}
  
@@ -68,18 +68,25 @@
 %empty page
 \null \newpage
 
+
 \pagenumbering{roman}
 \setcounter{page}{2}
 
+\doublespacing
+
+\input{sections/acknowledgements.tex}
+\newpage
+
+\input{sections/abstract.tex}
+\newpage
+\singlespacing
 \tableofcontents
+\doublespacing
 \newpage
 
 \listoffigures
 \newpage
 
-\doublespacing
-
-\input{sections/acknowledgements.tex}
 
 \pagenumbering{arabic}
 \input{sections/introduction.tex}
@@ -97,13 +104,13 @@
 \input{sections/future-work.tex}
 
 \input{sections/conclusion.tex}
-
+\newpage
+\setcounter{page}{1}
 \input{sections/appendices/appendices.tex}
 
 \newpage
-\setcounter{page}{1}
 \printbibliography
-%\addcontentsline{toc}{section}{References}
+\addcontentsline{toc}{section}{References}
 %\bibliographystyle{plain}
 %\bibliography{references}
 \end{document}
