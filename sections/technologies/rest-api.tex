@@ -1,7 +1,7 @@
 \subsection{REST API}
 In 2000, Roy Fielding wrote a PhD thesis focusing on the software architecture of web applications \cite{fieldingArchitecturalStylesDesign2000}.  In this dissertation, Fielding defined a style of designing web servers called Representational State Transfer (REST).  Since then, REST APIs have been the de facto standard for organizing services that send data over the internet.  Whether it is requesting individual web pages or bits of data to be used in an application, REST design patterns are often used. 
 
-To this day, the basic constraints laid out in Fielding's dissertation are still used as the tenants of well designed RESTful interfaces.  A quick Google search of REST principles will bring up hundreds of blog posts and tutorials summarizing these guidelines. For more information about REST, the reader is encouraged to do this additional research, however, I will include a brief summary below of the basic REST principles.
+To this day, the basic constraints laid out in Fielding's dissertation are still used as the tenets of well designed RESTful interfaces.  A quick Google search of REST principles will bring up hundreds of blog posts and tutorials summarizing these guidelines. For more information about REST, the reader is encouraged to do this additional research, however, I will include a brief summary below of the basic REST principles.
 
 \subsubsection{REST Principles}
 
@@ -9,7 +9,7 @@ To this day, the basic constraints laid out in Fielding's dissertation are still
     \item \textbf{Client-Server:} There should be a division between the software that stores and retrieves data and the software that displays the data.
     \item \textbf{Stateless:} All of the data required to respond to the request should be contained in the request. The server should not store the state of its interaction with the client. That is the client's responsibility.
     \item \textbf{Cache:} The results of a server request should be labeled as cacheable or non-cacheable.  Cacheable requests should not be re-requested for a certain time period to improve network efficiency.
-    \item \textbf{Uniform Interface:} All REST services should respond in a uniform way, with each resource having a Unique Resource Identifier (URI).  Through these standard interfaces, web browser can go to nearly any web page without specific configuration.
+    \item \textbf{Uniform Interface:} All REST services should respond in a uniform way, with each resource having a Unique Resource Identifier (URI).  Through these standard interfaces, a web browser can go to nearly any web page without specific configuration.
     \item \textbf{Layered System:} The client is only aware of the top most layer of a REST system, but there may be many layers beneath the public facing layer that process the request.
     \item \textbf{Code-On-Demand:} The client can request code that extends the functionality of the application.  This is the basis of how browsers work.  They request code in the form of HTML, CSS, and JavaScript, which run on the machine and also often continue to request more code.
 \end{itemize}

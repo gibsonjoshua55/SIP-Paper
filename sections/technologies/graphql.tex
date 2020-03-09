@@ -1,5 +1,5 @@
 \subsection{GraphQL}
-The main technology motivating this project is GraphQL, a query language developed by Facebook in 2012 \cite{byronKeynoteBriefHistory2019}.  This language, in comparison to querying languages such as SQL (Structured Query Language), is designed to be exposed as to the web as a public set of defined functions.  Due to security concerns, SQL has been secured and users have been prevented from sending SQL queries directly to a database.  This allows GraphQL to be a public Application Program Interface (API), which is essentially a contract of what functions are available for a given piece of software.  GraphQL servers can define the available queries and mutations for the server, and the client is then only allowed to request those functions to be run by the server.
+The main technology motivating this project is GraphQL, a query language developed by Facebook in 2012 \cite{byronKeynoteBriefHistory2019}.  This language, in comparison to querying languages such as SQL (Structured Query Language), is designed to be exposed to the web as a public set of defined functions.  Due to security concerns, SQL has been secured and users have been prevented from sending SQL queries directly to a database.  This allows GraphQL to be a public Application Program Interface (API), which is essentially a contract of what functions are available for a given piece of software.  GraphQL servers can define the available queries and mutations for the server, and the client is then only allowed to request those functions to be run by the server.
 
 \subsubsection{Language Structure}
 
@@ -14,7 +14,7 @@ Another unique part of the language is that data accessible by the API is repres
     \label{fig:schema-graph}
 \end{figure}
 
-Figure \ref{fig:schema-graph} is a visual representation of a GraphQL schema with three types, TimestampCollection, TimestampCollectionLabel, and Timestamp.  The edges between each type show that relationships exist between the types. These relationships  would allow the user to create a request as shown in Figure \ref{fig:basic-query}.  The result of this query would be all TimestampCollections with their associated labels and timestamps.  If some of those requested fields or connected data not are needed, however, any part of that query could be removed and the API would respond with less data.
+Figure \ref{fig:schema-graph} is a visual representation of a GraphQL schema with three types, TimestampCollection, TimestampCollectionLabel, and Timestamp.  The edges between each type show that relationships exist between the types. These relationships  would allow the user to create a request as shown in Figure \ref{fig:basic-query}.  The result of this query would be all TimestampCollections with their associated labels and timestamps.  If some of those requested fields or connected data are not needed, however, any part of that query could be removed and the API would respond with less data.
 
 \begin{figure}
     \begin{verbatim}
